@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+<script>
+var getString = function(param){
+    switch(param){
+        case "POL" : return "정치";
+        case "ECO" : return "경제";
+        case "ENT" : return "연예";
+    }
+}
+function fnGetElementsByTag(){
+    var inputs = document.getElementsByTagName("input");
+    var checkString = "", inputString;
+
+    for(var i=0 ; i<inputs.length ; i++) {
+        if(inputs[i].type=="checkbox" && inputs[i].checked==true) {
+            checkString +=getString(inputs[i].value)+" ";
+
+            inputs[i].type = "button";
+            inputs[i].value = "동적버튼변경";
+        }
+        if(inputs[i].type=="text" && inputs[i].name=="txt"){
+            inputString = inputs[i].value;
+        }
+    }
+    alert("선택한값:"+ checkString +", 입력한값:"+ inputString);
+}
+function fnGetDomaun(){
+  var a_tags = document.getElementsByTagName("a");
+  for(var i=0 ; i<a_tags.length ; i++) {
+      if(a_tags[i].href.toUpperCase().indexOf("WWW")!=-1){
+      }
+  }
+}
+</script> 
+<h2></h2>
+</body>
+</html>
