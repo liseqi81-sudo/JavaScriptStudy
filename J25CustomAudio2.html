@@ -14,33 +14,56 @@ window.onload = function(){
     divMsg = document.getElementById("msg"); 
     audio = document.getElementById("audio"); 
     select = document.getElementById("select");
-    
+    //음원의 재생이 완료되었을 때 발생되는 이벤트를 Audio DOM에 부착
     audio.onended = function (e) {
+      //현재 재생중인 음원의 index를 1증가
       index++;
+      /*
+      select에 설정된 음원의 갯수로 index를 나누어 나머지를 구한다. 
+      그러면 설정된 음원의 인덱스를 토글할 수 있다.*/
       index %= select.length;
+      //인덱스를 통해 음원 재생
       myPlay(index);
     }
 }
+//select 에서 option을 선택했을 때 호출됨. .
 function changePlay(){
+    //해당곡의 인덱스를 통해 재생
     myPlay(select.selectedIndex);
+    //다음곡 재생을 위해 전역변수에 현재곡의 인덱스 할당
     index = select.selectedIndex;
 }
+//play, next 버튼을 누를 때 호출
 function control(e) {
+  //콘솔에서 이벤트 객체 확인해보기
+  console.log(e);
+  /*
+  매개변수로 전달된 이벤트 객체를 통해 클릭한 버튼을 식별한다. target의 
+  하위 속성 중 id를 통해 식별할 수 있다. */
   if(e.target.id == "play"){
     console.log("플레이버튼");
+    //현재 지정된 index의 음원 재생
     myPlay(index);
   }
   else if(e.target.id == "next"){
     console.log("넥스트버튼");
+    //다음곡 재생이면 index에 1을 더한 후 재생한다.
     index++;
     index %= select.length;
     myPlay(index);
     select.selectedIndex = index;
   }
 }
+//재생하기
 function myPlay(idx){
+  /*
+  매개변수로 전달된 index를 통해 option 태그를 선택한다. option속성으로
+  배열처럼 접근할 수 있다. value로 지정된 음원의 경로명을 가져와서 Audio 객체에
+  src 속성을 부여한다. */
   audio.src =select.options[idx].value;
+  //음원 재생
   audio.play();
+  //화면에 곡명을 출력(text속성은 option태그 사이의 텍스트를 가리킴)
   divMsg.innerHTML = select.options[idx].text +" 을 재생합니다."
 }
 </script>
@@ -54,18 +77,24 @@ function myPlay(idx){
     <li>next버튼을 누르면 다음 곳으로 넘어갑니다.</li>
   </p>
   <hr />
+  <!-- 오디오 태그 정의. 아이디 속성만 지정되어 있음. -->
   <audio id="audio" controls>
     <p>브라우저가 audio태그를 지원하지 않습니다.</p>
   </audio>
   <br />
+  <!-- 재생목록 -->
   <select id="select" size="5" onchange="changePlay();">
+    <!-- option태그의 value속성은 음원의 경로. text 속성은 음원의 제목 설정 
+     항목을 선택하면 발생되는 change 이벤트를 통해 함수 호출 -->
       <option value="./media/I_Remember_You.mp3">
         I Remember You[SkidRow]</option>
-        <option value="./media/Kissing_A_Fool.mp3">
+        <option value="./media/Kissing_A-Fool.mp3">
         Kissing A Fool[George Michael]</option>
-        <option value="./media/When_I_First_Kissed_You.mp3">
-          When_I_First_Kissed_You[Extreme]</option>
+        <option value="./media/When_I_First-Kissed_You.mp3">
+          When I First Kissed You[Extreme]</option>
   </select>
+  <!-- event 객체를 통해 이벤트가 발생된 엘리먼트의 여러가지 속성값을
+   알 수 있다. 따라서 event객체만 인수로 전달한다. -->
   <button type="button" id="play" onclick="control(event);">play</button>
   <button type="button" id="next" onclick="control(event);">Next</button>
   <br />
